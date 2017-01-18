@@ -10,12 +10,12 @@ var Container = PIXI.Container,
 
 //Create a Pixi stage and renderer
 var stage = new Container(),
-    renderer = autoDetectRenderer(800, 800);
+    renderer = autoDetectRenderer(800, 600);
 document.body.appendChild(renderer.view);
 
 //Load an image and the run the `setup` function
 loader
-    .add(imgPath + "Circus.jpg")
+    .add(imgPath + "Stones.jpg")
     .load(setup);
 
 //Define any variables that are used in more than one function
@@ -24,7 +24,7 @@ var scfImg, state;
 function setup() {
 
     //Create the `cat` sprite
-    scfImg = new Sprite(resources[imgPath + "Circus.jpg"].texture);
+    scfImg = new Sprite(resources[imgPath + "Stones.jpg"].texture);
     scfImg.x = 700;
     scfImg.vx = 0;
     scfImg.vy = 0;
@@ -47,7 +47,7 @@ function setup() {
     * Add Background
     */
 
-    var background = new Sprite.fromImage(imgPath + 'Stones.jpg');
+    var background = new Sprite.fromImage(imgPath + 'Circus.jpg');
     stage.addChild(background);
 
     //Capture the keyboard arrow keys
@@ -56,39 +56,27 @@ function setup() {
         right = keyboard(39),
         down = keyboard(40);
 
-    //Left arrow key `press` method
     left.press = function() {
-
-        //Change the cat's velocity when the key is pressed
         scfImg.vx = -5;
         scfImg.vy = 0;
     };
 
-    //Left arrow key `release` method
     left.release = function() {
-
-        //If the left arrow has been released, and the right arrow isn't down,
-        //and the cat isn't moving vertically:
-        //Stop the cat
         if (!right.isDown && scfImg.vy === 0) {
             scfImg.vx = 0;
         }
     };
 
-    //Up
     up.press = function() {
-        console.log(this);
         scfImg.vy = -5;
         scfImg.vx = 0;
     };
     up.release = function() {
-        console.log(this);
         if (!down.isDown && scfImg.vx === 0) {
             scfImg.vy = 0;
         }
     };
 
-    //Right
     right.press = function() {
         scfImg.vx = 5;
         scfImg.vy = 0;
@@ -99,7 +87,6 @@ function setup() {
         }
     };
 
-    //Down
     down.press = function() {
         scfImg.vy = 5;
         scfImg.vx = 0;
