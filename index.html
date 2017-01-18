@@ -31,23 +31,37 @@
         // renderer.render(stage);
 
         var stage = new PIXI.Container(),
-          renderer = PIXI.autoDetectRenderer(256,256);
+            renderer = PIXI.autoDetectRenderer(256, 256);
 
-          document.body.appendChild(renderer.view);
+        document.body.appendChild(renderer.view);
 
-          PIXI.loader
+        PIXI.loader
             .add('stones.jpg')
             .load(setup);
 
-            function setup(){
-              var stone = new PIXI.Sprite(
+        var stone;
+
+        function setup() {
+            stone = new PIXI.Sprite(
                 PIXI.loader.resources["stones.jpg"].texture
-              );
+            );
 
-              stage.addChild(stone);
+            stage.addChild(stone);
 
-              renderer.render(stage);
-            }
+            gameLoop();
+        }
+
+        function gameLoop() {
+
+            //Loop this function at 60 frames per second
+            requestAnimationFrame(gameLoop);
+
+            //Move the cat 1 pixel to the right each frame
+            stone.x += 1;
+
+            //Render the stage to see the animation
+            renderer.render(stage);
+        }
     </script>
 </body>
 
