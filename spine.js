@@ -6,7 +6,7 @@ var stage = new PIXI.Container();
 
 // load spine data
 PIXI.loader
-    .add('pixie', 'required/assets/spine/Pixie.json')
+    .add('pixie', 'required/assets/spine/pixie.json')
     .load(onAssetsLoaded);
 
 var postition = 0,
@@ -24,11 +24,11 @@ function onAssetsLoaded(loader,res)
     stage.addChild(background);
     stage.addChild(background2);
 
-    foreground = PIXI.Sprite.fromImage('required/assets/spine/iP4_ground.png');
-    foreground2 = PIXI.Sprite.fromImage('required/assets/spine/iP4_ground.png');
-    stage.addChild(foreground);
-    stage.addChild(foreground2);
-    foreground.position.y = foreground2.position.y = 640 - foreground2.height;
+    // foreground = PIXI.Sprite.fromImage('required/assets/spine/iP4_ground.png');
+    // foreground2 = PIXI.Sprite.fromImage('required/assets/spine/iP4_ground.png');
+    // stage.addChild(foreground);
+    // stage.addChild(foreground2);
+    // foreground.position.y = foreground2.position.y = 640 - foreground2.height;
 
     var pixie = new PIXI.spine.Spine(res.pixie.spineData);
 
@@ -39,7 +39,7 @@ function onAssetsLoaded(loader,res)
 
     pixie.scale.x = pixie.scale.y = scale;
 
-    stage.addChild(pixie);
+    //stage.addChild(pixie);
 
     pixie.stateData.setMixByName('running', 'jump', 0.2);
     pixie.stateData.setMixByName('jump', 'running', 0.4);
@@ -51,8 +51,8 @@ function onAssetsLoaded(loader,res)
 
     function onTouchStart()
     {
-        pixie.state.setAnimationByName(0, 'jump', false);
-        pixie.state.addAnimationByName(0, 'running', true, 0);
+        // pixie.state.setAnimationByName(0, 'jump', false);
+        // pixie.state.addAnimationByName(0, 'running', true, 0);
     }
 
     animate();
@@ -78,21 +78,21 @@ function animate()
     }
     background2.position.x -= 1286;
 
-    foreground.position.x = -postition;
-    foreground.position.x %= 1286 * 2;
-    if(foreground.position.x < 0)
-    {
-        foreground.position.x += 1286 * 2;
-    }
-    foreground.position.x -= 1286;
-
-    foreground2.position.x = -postition + 1286;
-    foreground2.position.x %= 1286 * 2;
-    if(foreground2.position.x < 0)
-    {
-        foreground2.position.x += 1286 * 2;
-    }
-    foreground2.position.x -= 1286;
+    // foreground.position.x = -postition;
+    // foreground.position.x %= 1286 * 2;
+    // if(foreground.position.x < 0)
+    // {
+    //     foreground.position.x += 1286 * 2;
+    // }
+    // foreground.position.x -= 1286;
+    //
+    // foreground2.position.x = -postition + 1286;
+    // foreground2.position.x %= 1286 * 2;
+    // if(foreground2.position.x < 0)
+    // {
+    //     foreground2.position.x += 1286 * 2;
+    // }
+    // foreground2.position.x -= 1286;
 
     requestAnimationFrame(animate);
 
