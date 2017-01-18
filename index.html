@@ -9,58 +9,60 @@
 
 <body>
     <script>
-        // //Create the renderer
-        // var renderer = PIXI.autoDetectRenderer(256, 256);
-        // PIXI.loader
-        //     .add("stones.jpg")
-        //     .load(setup);
-        //
-        // function setup() {
-        //     var sprite = new PIXI.Sprite(
-        //         PIXI.loader.resources["stones.jpg"].texture
-        //     );
-        // }
-        // //Add the canvas to the HTML document
-        // document.body.appendChild(renderer.view);
-        //
-        // //Create a container object called the `stage`
-        // var stage = new PIXI.Container();
-        // stage.addChild(sprite);
-        //
-        // //Tell the `renderer` to `render` the `stage`
-        // renderer.render(stage);
+        //Aliases
+        var Container = PIXI.Container,
+            autoDetectRenderer = PIXI.autoDetectRenderer,
+            loader = PIXI.loader,
+            resources = PIXI.loader.resources,
+            Sprite = PIXI.Sprite;
 
-        var stage = new PIXI.Container(),
-            renderer = PIXI.autoDetectRenderer(256, 256);
 
+        //Create a Pixi stage and renderer
+        var stage = new Container(),
+            renderer = autoDetectRenderer(800,800);
         document.body.appendChild(renderer.view);
 
-        PIXI.loader
-            .add('stones.jpg')
+        //Load an image and the run the `setup` function
+        loader
+            .add("dummy-white.jpg")
             .load(setup);
 
-        var stone;
+        //Define any variables that are used in more than one function
+        var scfImg, state;
 
         function setup() {
-            stone = new PIXI.Sprite(
-                PIXI.loader.resources["stones.jpg"].texture
-            );
 
-            stage.addChild(stone);
+            //Create the `cat` sprite
+            scfImg = new Sprite(resources["dummy-white.jpg"].texture);
+            scfImg.y = 96;
+            scfImg.vx = 0;
+            scfImg.vy = 0;
+            stage.addChild(scfImg);
 
+            //Set the game state
+            state = play;
+
+            //Start the game loop
             gameLoop();
         }
 
         function gameLoop() {
 
-            //Loop this function at 60 frames per second
+            //Loop this function 60 times per second
             requestAnimationFrame(gameLoop);
 
-            //Move the cat 1 pixel to the right each frame
-            stone.x += 1;
+            //Update the current game state:
+            state();
 
-            //Render the stage to see the animation
+            //Render the stage
             renderer.render(stage);
+        }
+
+        function play() {
+
+            //Move the cat 1 pixel to the right each frame
+            scfImg.vx = 1
+            scfImg.x += scfImg.vx;
         }
     </script>
 </body>
