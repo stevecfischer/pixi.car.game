@@ -10,7 +10,8 @@ var stage = new PIXI.Container();
 
 // load spine data
 PIXI.loader
-    .add('images/Circus.jpg')
+    .add('images/car.jpeg')
+    .add('images/red.car.png')
     .load(onAssetsLoaded);
 
 var postition = 0,
@@ -20,33 +21,23 @@ var postition = 0,
     foreground2,
     imgPath = "./images/",
     scfImg,
+    redCar,
     state;
 
 stage.interactive = true;
 
-function onAssetsLoaded(loader,res)
-{
+function onAssetsLoaded(loader, res) {
     //Create the `cat` sprite
-    scfImg = new Sprite(resources[imgPath + "Circus.jpg"]);
-    scfImg.x = 700;
-    scfImg.vx = 0;
-    scfImg.vy = 0;
-    stage.addChild(scfImg);
-
+    scfImg = PIXI.Sprite.fromImage('images/car.jpeg');
+    redCar = PIXI.Sprite.fromImage('images/red.car.png');
     background = PIXI.Sprite.fromImage('required/assets/spine/iP4_BGtile.jpg');
     background2 = PIXI.Sprite.fromImage('required/assets/spine/iP4_BGtile.jpg');
-    // stage.addChild(background);
-    // stage.addChild(background2);
-
-    foreground = PIXI.Sprite.fromImage('required/assets/spine/iP4_ground.png');
-    foreground2 = PIXI.Sprite.fromImage('required/assets/spine/iP4_ground.png');
-    // stage.addChild(foreground);
-    // stage.addChild(foreground2);
-    foreground.position.y = foreground2.position.y = 640 - foreground2.height;
-
+    stage.addChild(background);
+    stage.addChild(background2);
+    stage.addChild(redCar);
+    stage.addChild(scfImg);
 
     var scale = 0.3;
-
 
     stage.on('mousedown', onTouchStart);
     stage.on('touchstart', onTouchStart);
@@ -93,55 +84,58 @@ function onAssetsLoaded(loader,res)
         scfImg.vx = 0;
     };
     down.release = function() {
-      console.log(this);
+        console.log(this);
         if (!up.isDown && scfImg.vx === 0) {
             scfImg.vy = 0;
         }
     };
 
-    function onTouchStart()
-    {
+    function onTouchStart() {
 
     }
     state = play;
     animate();
 }
 
-function animate()
-{
-    postition += 10;
+function animate() {
 
-    background.position.x = -(postition * 0.6);
-    background.position.x %= 1286 * 2;
-    if(background.position.x < 0)
-    {
-        background.position.x += 1286 * 2;
+
+    scfImg.x = 6;
+    scfImg.y = 200;
+    scfImg.vx = 0;
+    scfImg.vy = 0;
+    scfImg.scale.x = 0.5;
+    scfImg.scale.y = 0.5;
+
+    redCar.x = 600;
+    redCar.y = 200;
+    redCar.vx = 0;
+    redCar.vy = 0;
+    redCar.scale.x = 0.5;
+    redCar.scale.y = 0.5;
+
+
+
+    function bgAnim(sprite) {
+        postition += 10;
+        sprite.position.x = -(postition * 0.6);
+        sprite.position.x %= 1286 * 2;
+        if (sprite.position.x < 0) {
+            sprite.position.x += 1286 * 2;
+        }
+        sprite.position.x -= 1286;
     }
-    background.position.x -= 1286;
 
     background2.position.x = -(postition * 0.6) + 1286;
     background2.position.x %= 1286 * 2;
-    if(background2.position.x < 0)
-    {
+    if (background2.position.x < 0) {
         background2.position.x += 1286 * 2;
     }
     background2.position.x -= 1286;
 
-    foreground.position.x = -postition;
-    foreground.position.x %= 1286 * 2;
-    if(foreground.position.x < 0)
-    {
-        foreground.position.x += 1286 * 2;
-    }
-    foreground.position.x -= 1286;
 
-    foreground2.position.x = -postition + 1286;
-    foreground2.position.x %= 1286 * 2;
-    if(foreground2.position.x < 0)
-    {
-        foreground2.position.x += 1286 * 2;
-    }
-    foreground2.position.x -= 1286;
+    bgAnim(background);
+    // bgAnim(background2);
 
     requestAnimationFrame(animate);
 
@@ -159,6 +153,7 @@ function play() {
     scfImg.x += scfImg.vx;
     scfImg.y += scfImg.vy;
 }
+
 function keyboard(keyCode) {
     var key = {};
     key.code = keyCode;
