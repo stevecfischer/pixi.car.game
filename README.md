@@ -4,4 +4,8 @@
  - scoreboard
  - destroy method to conserver resources
  - add distractions to block users view
- 
+ - add hot loader to dev build
+ - refactor for ES2015
+ - update build for ES2015
+ - add array of redCars and move them randomly
+ - maybe instead of score we use a health bar. X crash and you lose
