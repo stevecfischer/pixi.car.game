@@ -22,13 +22,15 @@ var postition = 0,
     imgPath = "./images/",
     scfImg,
     redCar,
+    healthBar,
+    gameScene,
     state;
 
 stage.interactive = true;
 
 function carStartPos() {
     scfImg.x = 6;
-    scfImg.y = 200;
+    scfImg.y = stage.height - 200;
     scfImg.vx = 0;
     scfImg.vy = 0;
     scfImg.scale.x = 0.5;
@@ -43,6 +45,10 @@ function carStartPos() {
 }
 
 function onAssetsLoaded(loader, res) {
+  //Make the game scene and add it to the stage
+gameScene = new PIXI.Container();
+
+
     //Create the `cat` sprite
     scfImg = PIXI.Sprite.fromImage('images/car.jpeg');
     redCar = PIXI.Sprite.fromImage('images/red.car.png');
@@ -52,7 +58,7 @@ function onAssetsLoaded(loader, res) {
     stage.addChild(background2);
     stage.addChild(redCar);
     stage.addChild(scfImg);
-
+    stage.addChild(gameScene);
     carStartPos();
 
 
@@ -106,14 +112,32 @@ function onAssetsLoaded(loader, res) {
         }
     };
 
+    //Create the health bar
+  healthBar = new PIXI.Container();
+  healthBar.position.set(stage.width - 470, 40);
+  gameScene.addChild(healthBar);
+  //Create the black background rectangle
+  var innerBar = new PIXI.Graphics();
+  innerBar.beginFill(0x000000);
+  innerBar.drawRect(0, 0, 128, 8);
+  innerBar.endFill();
+  healthBar.addChild(innerBar);
+  //Create the front red rectangle
+  var outerBar = new PIXI.Graphics();
+  outerBar.beginFill(0xFF3300);
+  outerBar.drawRect(0, 0, 128, 8);
+  outerBar.endFill();
+  healthBar.addChild(outerBar);
+  healthBar.outer = outerBar;
+
     //Create the text sprite
     message = new PIXI.Text(
-        "No collision...", {
+        "Great Driving", {
             font: "18px sans-serif",
             fill: "white"
         }
     );
-    message.position.set(8, 8);
+    message.position.set(stage.width - 470, 20);
     stage.addChild(message);
 
     state = play;
@@ -151,12 +175,12 @@ function animate() {
     if (hitTestRectangle(scfImg, redCar)) {
       //if there's a collision, change the message text
       //and tint the box red
-      message.text = "hit!";
+      message.text = "You Crashed!";
 
     } else {
       //if there's no collision, reset the message
       //text and the box's color
-      message.text = "No collision...";
+      message.text = "Try and do better this time...";
 
     }
 

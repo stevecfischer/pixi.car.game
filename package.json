@@ -1,21 +1,13 @@
 {
-  "name": "pixi.js",
-  "version": "4.3.3",
-  "description": "Pixi.js is a fast lightweight 2D library that works across all devices.",
-  "author": "Mat Groves",
-  "contributors": [
-    "Ivan Popelyshev <ivan.popelyshev@gmail.com>",
-    "Matt Karl <matt@mattkarl.com>",
-    "Chad Engler <chad@pantherdev.com>",
-    "Richard Davey <rdavey@gmail.com>"
-  ],
+  "name": "pixi.cargame",
+  "version": "2.0.0",
+  "description": "Exercise in pixi.js",
+  "author": "Steve Fischer",
   "main": "./lib/index.js",
-  "homepage": "http://goodboydigital.com/",
-  "bugs": "https://github.com/pixijs/pixi.js/issues",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/pixijs/pixi.js.git"
+    "url": "https://github.com/stevecfischer/pixi.car.game.git"
   },
   "scripts": {
     "clean": "rimraf dist lib && mkdirp dist && mkdir lib",
@@ -47,14 +39,6 @@
     "postpublish": "node scripts/release.js",
     "server":"http-server -p 5000"
   },
-  "files": [
-    "dist/",
-    "lib/",
-    "CONTRIBUTING.md",
-    "LICENSE",
-    "package.json",
-    "README.md"
-  ],
   "dependencies": {
     "bit-twiddle": "^1.0.2",
     "earcut": "^2.0.7",
