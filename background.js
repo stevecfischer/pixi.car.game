@@ -26,6 +26,22 @@ var postition = 0,
 
 stage.interactive = true;
 
+function carStartPos() {
+  scfImg.x = 6;
+  scfImg.y = 200;
+  scfImg.vx = 0;
+  scfImg.vy = 0;
+  scfImg.scale.x = 0.5;
+  scfImg.scale.y = 0.5;
+
+  redCar.x = 600;
+  redCar.y = 200;
+  redCar.vx = 0;
+  redCar.vy = 0;
+  redCar.scale.x = 0.5;
+  redCar.scale.y = 0.5;
+}
+
 function onAssetsLoaded(loader, res) {
     //Create the `cat` sprite
     scfImg = PIXI.Sprite.fromImage('images/car.jpeg');
@@ -36,6 +52,9 @@ function onAssetsLoaded(loader, res) {
     stage.addChild(background2);
     stage.addChild(redCar);
     stage.addChild(scfImg);
+
+    carStartPos();
+
 
     var scale = 0.3;
 
@@ -99,25 +118,15 @@ function onAssetsLoaded(loader, res) {
 
 function animate() {
 
-
-    scfImg.x = 6;
-    scfImg.y = 200;
-    scfImg.vx = 0;
-    scfImg.vy = 0;
-    scfImg.scale.x = 0.5;
-    scfImg.scale.y = 0.5;
-
-    redCar.x = 600;
-    redCar.y = 200;
-    redCar.vx = 0;
-    redCar.vy = 0;
-    redCar.scale.x = 0.5;
-    redCar.scale.y = 0.5;
+    //postition += 0; // disable animation
 
 
+
+
+postition += 10;
 
     function bgAnim(sprite) {
-        postition += 10;
+
         sprite.position.x = -(postition * 0.6);
         sprite.position.x %= 1286 * 2;
         if (sprite.position.x < 0) {
@@ -133,9 +142,15 @@ function animate() {
     }
     background2.position.x -= 1286;
 
+    redCar.position.x = -(postition * 0.6) + 1286;
+    redCar.position.x %= 1286 * 2;
+    if (redCar.position.x < 0) {
+        redCar.position.x += 1286 * 2;
+    }
+    redCar.position.x -= 1286;
+
 
     bgAnim(background);
-    // bgAnim(background2);
 
     requestAnimationFrame(animate);
 
