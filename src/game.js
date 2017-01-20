@@ -24,6 +24,7 @@ var postition = 0,
     redCar,
     healthBar,
     message,
+    startButtonWrapper,
     state;
 
 stage.interactive = true;
@@ -36,18 +37,20 @@ function roadObjects() {
     redCar.scale.x = 0.5;
     redCar.scale.y = 0.5;
 }
+function getStartButton() {
 
+    let startButton = u.rectangle(200, 64, "seaGreen", "hotPink", 2);
+    let message = u.text("Click to Start", "", "16px", "white", 50, 25);
+    startButtonWrapper = u.group(startButton, message);
+    startButtonWrapper.position.set(240, 480);
+}
 function onAssetsLoaded(loader, res) {
-
-    userCar = u.sprite('images/car.jpeg', 60, 200);
-
+    getStartButton();
+    userCar = u.sprite('images/car.jpeg', stage.height - 400, 200);
     redCar = PIXI.Sprite.fromImage('images/red.car.png');
     background = PIXI.Sprite.fromImage('images/iP4_BGtile.jpg');
     background2 = PIXI.Sprite.fromImage('images/iP4_BGtile.jpg');
-    stage.addChild(background);
-    stage.addChild(background2);
-    stage.addChild(redCar);
-    stage.addChild(userCar);
+    stage.addChild(background, background2, redCar, userCar, startButtonWrapper);
 
     roadObjects();
     carStartPos(userCar);
@@ -102,3 +105,19 @@ function bgAnim(sprite, background2, redCar) {
     }
     redCar.position.x -= 1286;
 }
+
+jQuery(function ($) {
+    console.log($);
+})
+
+// function getPercent(axis, percent) {
+//     let a;
+//     if (axis == "w") {
+//         a = renderer.width;
+//     } else {
+//         a = renderer.height;
+//     }
+//     const pos = (percent / 100) * a;
+//     console.log(pos);
+//     return pos;
+// }
