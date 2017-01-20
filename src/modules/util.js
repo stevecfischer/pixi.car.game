@@ -34,6 +34,55 @@ export function keyboard(keyCode) {
     return key;
 }
 
+export function keyboardMoves(sprite) {
+        //Capture the keyboard arrow keys
+    var left = keyboard(37),
+        up = keyboard(38),
+        right = keyboard(39),
+        down = keyboard(40);
+
+    left.press = function () {
+        sprite.vx = -5;
+        sprite.vy = 0;
+    };
+
+    left.release = function () {
+        if (!right.isDown && sprite.vy === 0) {
+            sprite.vx = 0;
+        }
+    };
+
+    up.press = function () {
+        sprite.vy = -5;
+        sprite.vx = 0;
+    };
+    up.release = function () {
+        if (!down.isDown && sprite.vx === 0) {
+            sprite.vy = 0;
+        }
+    };
+
+    right.press = function () {
+        sprite.vx = 5;
+        sprite.vy = 0;
+    };
+    right.release = function () {
+        if (!left.isDown && sprite.vy === 0) {
+            sprite.vx = 0;
+        }
+    };
+
+    down.press = function () {
+        sprite.vy = 5;
+        sprite.vx = 0;
+    };
+    down.release = function () {
+        if (!up.isDown && sprite.vx === 0) {
+            sprite.vy = 0;
+        }
+    };
+}
+
 export function hitTestRectangle(r1, r2) {
     //Define the variables we'll need to calculate
     var hit, combinedHalfWidths, combinedHalfHeights, vx, vy;
@@ -72,3 +121,28 @@ export function hitTestRectangle(r1, r2) {
     //`hit` will be either `true` or `false`
     return hit;
 };
+
+export function setHealthBar(stage,u) {
+    let healthbar = u.rectangle(200, 15, 'black', "black", 2, 50, 50);
+    let lifemeter = u.rectangle(128, 15, 'red', "red", 2, 50, 50);
+    let message = u.text("Life Meter", "", "16px", "white", 120, 25);
+
+    let heathWrapper = u.group(healthbar,lifemeter,message);
+    heathWrapper.position.set(4, 4);
+    stage.addChild(heathWrapper);
+};
+
+export function setClock(){
+
+}
+
+export function carStartPos(userCar) {
+        var scale = 0.3;
+
+    userCar.x = 6;
+    userCar.y = 200;
+    userCar.vx = 0;
+    userCar.vy = 0;
+    userCar.scale.x = 0.5;
+    userCar.scale.y = 0.5;
+}
