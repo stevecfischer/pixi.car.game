@@ -11,32 +11,6 @@ let t = new Tink(PIXI, renderer.view);
 
 // create the root of the scene graph
 var stage = new PIXI.Container();
-var animationLoop = new PIXI.AnimationLoop(renderer);
-animationLoop.start();
-
-animationLoop.on('start', function(){
-  console.log('onStart');
-});
-
-animationLoop.on('stop', function(){
-  console.log('onStop');
-});
-
-//Before the renderer.render(stage) function
-animationLoop.on('prerender', function(){
-  console.log('preRender', this.delta);
-});
-
-//After the renderer.render(stage) function
-animationLoop.on('postrender', function(){
-  console.log('postRender', this.delta);
-});
-
-//when the visibility change, for example, when the user move on to other browser tab.
-animationLoop.on('visibilitychange', function(isHide){
-  //the param isHide is the state of the tab
-  console.log('visibilityChange', isHide);
-});
 
 // load spine data
 PIXI.loader
@@ -99,9 +73,6 @@ function onAssetsLoaded(loader, res) {
 
 function animate() {
 
-
-    console.log('aaa');
-
     if (hitTestRectangle(userCar, redCar)) {
 
     } else {
@@ -113,7 +84,7 @@ function animate() {
 
 
     t.update();
-    //state();
+    state();
     renderer.render(stage);
 }
 
