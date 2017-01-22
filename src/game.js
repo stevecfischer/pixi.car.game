@@ -7,9 +7,36 @@ var resources = PIXI.loader.resources,
 var renderer = PIXI.autoDetectRenderer(800, 600);
 document.body.appendChild(renderer.view);
 let u = new SpriteUtilities(PIXI, renderer);
+let t = new Tink(PIXI, renderer.view);
 
 // create the root of the scene graph
 var stage = new PIXI.Container();
+var animationLoop = new PIXI.AnimationLoop(renderer);
+animationLoop.start();
+
+animationLoop.on('start', function(){
+  console.log('onStart');
+});
+
+animationLoop.on('stop', function(){
+  console.log('onStop');
+});
+
+//Before the renderer.render(stage) function
+animationLoop.on('prerender', function(){
+  console.log('preRender', this.delta);
+});
+
+//After the renderer.render(stage) function
+animationLoop.on('postrender', function(){
+  console.log('postRender', this.delta);
+});
+
+//when the visibility change, for example, when the user move on to other browser tab.
+animationLoop.on('visibilitychange', function(isHide){
+  //the param isHide is the state of the tab
+  console.log('visibilityChange', isHide);
+});
 
 // load spine data
 PIXI.loader
@@ -18,6 +45,7 @@ PIXI.loader
     .load(onAssetsLoaded);
 
 var postition = 0,
+    isRunning = false,
     background,
     background2,
     userCar,
@@ -25,6 +53,7 @@ var postition = 0,
     healthBar,
     message,
     startButtonWrapper,
+    pause = false,
     state;
 
 stage.interactive = true;
@@ -37,16 +66,22 @@ function roadObjects() {
     redCar.scale.x = 0.5;
     redCar.scale.y = 0.5;
 }
+
 function getStartButton() {
 
     let startButton = u.rectangle(200, 64, "seaGreen", "hotPink", 2);
     let message = u.text("Click to Start", "", "16px", "white", 50, 25);
     startButtonWrapper = u.group(startButton, message);
     startButtonWrapper.position.set(240, 480);
+    startButtonWrapper.on("mousedown", onclick);
+
+
 }
+
 function onAssetsLoaded(loader, res) {
     getStartButton();
     userCar = u.sprite('images/car.jpeg', stage.height - 400, 200);
+
     redCar = PIXI.Sprite.fromImage('images/red.car.png');
     background = PIXI.Sprite.fromImage('images/iP4_BGtile.jpg');
     background2 = PIXI.Sprite.fromImage('images/iP4_BGtile.jpg');
@@ -56,6 +91,7 @@ function onAssetsLoaded(loader, res) {
     carStartPos(userCar);
     keyboardMoves(userCar);
     setHealthBar(stage, u);
+    t.makeInteractive(startButtonWrapper);
 
     state = play;
     animate();
@@ -63,22 +99,42 @@ function onAssetsLoaded(loader, res) {
 
 function animate() {
 
-    bgAnim(background, background2, redCar)
 
+    console.log('aaa');
 
     if (hitTestRectangle(userCar, redCar)) {
-        let message = u.text("Life Meter", "", "16px", "white", 120, 25);
 
     } else {
+        // let message = u.text("Hello!", "Futura", "32px", "white", 400, 20);
+        // stage.addChild(message);
+        // state = end;
     }
     requestAnimationFrame(animate);
 
-    state();
+
+    t.update();
+    //state();
     renderer.render(stage);
 }
 
+    startButtonWrapper.press = () => {
+        console.log('ddd');
+        if (isRunning) {
+            isRunning = false;
+            pause = true;
+        } else {
+            isRunning = true;
+            requestAnimationFrame(animate);
+        }
+    }
+
+function end() {
+    stage.visible = false;
+    // gameOverScene.visible = true;
+}
 
 function play() {
+    bgAnim(background, background2, redCar);
     userCar.x += userCar.vx;
     userCar.y += userCar.vy;
 }
