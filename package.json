@@ -10,7 +10,7 @@
     "url": "https://github.com/stevecfischer/pixi.car.game.git"
   },
   "scripts": {
-    "start": "webpack-dev-server --port=9000 --progress --inline --hot"
+    "start": "webpack-dev-server --port=9090 --progress --inline --hot"
   },
   "devDependencies": {
     "babel-core": "^6.21.0",

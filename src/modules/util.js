@@ -122,14 +122,14 @@ export function hitTestRectangle(r1, r2) {
     return hit;
 };
 
-export function setHealthBar(stage,u) {
-    let healthbar = u.rectangle(200, 15, 'black', "black", 2, 50, 50);
-    let lifemeter = u.rectangle(128, 15, 'red', "red", 2, 50, 50);
-    let message = u.text("Life Meter", "", "16px", "white", 120, 25);
-
+export function setHealthBar(stage,u,lifemeter) {
+    let healthbar = u.line("white", 17, 50, 59, 250, 59);
+    lifemeter = u.line("red", 17, 50, 59, 250, 59);
+    let message = u.text("Life Meter", "", "16px", "white", 110, 25);
     let heathWrapper = u.group(healthbar,lifemeter,message);
     heathWrapper.position.set(4, 4);
     stage.addChild(heathWrapper);
+    return lifemeter;
 };
 
 export function setClock(){
@@ -139,10 +139,41 @@ export function setClock(){
 export function carStartPos(userCar) {
         var scale = 0.3;
 
-    userCar.x = 6;
+    userCar.x = 0;
     userCar.y = 200;
     userCar.vx = 0;
     userCar.vy = 0;
-    userCar.scale.x = 0.5;
-    userCar.scale.y = 0.5;
+    userCar.scale.x = 0.3;
+    userCar.scale.y = 0.3;
+}
+
+//The `randomInt` helper function
+export function randomInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+export function contain(sprite, container) {
+  var collision = undefined;
+  //Left
+  if (sprite.x < container.x) {
+    sprite.x = container.x;
+    collision = "left";
+  }
+  //Top
+  if (sprite.y < container.y) {
+    sprite.y = container.y;
+    collision = "top";
+  }
+  //Right
+  if (sprite.x + sprite.width > container.width) {
+    sprite.x = container.width - sprite.width;
+    collision = "right";
+  }
+  //Bottom
+  if (sprite.y + sprite.height > container.height) {
+    sprite.y = container.height - sprite.height;
+    collision = "bottom";
+  }
+  //Return the `collision` value
+  return collision;
 }
