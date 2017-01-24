@@ -107,7 +107,7 @@ function onAssetsLoaded(loader, res) {
     blobs = [];
     //Make as many blobs as there are `numberOfBlobs`
     for (var i = 0; i < numberOfBlobs; i++) {
-        var blob = new PIXI.Sprite.fromImage("images/blob.png");
+        var blob = new PIXI.Sprite.fromImage("images/explorer.png");
         //Space each blob horizontally according to the `spacing` value.
         //`xOffset` determines the point from the left of the screen
         //at which the first blob should be added
